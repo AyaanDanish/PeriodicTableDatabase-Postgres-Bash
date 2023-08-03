@@ -16,7 +16,7 @@ else
   then
     echo "I could not find that element in the database."
   else
-    ELEMENT_PROPS="$($PSQL "select atomic_number, symbol, name, type, atomic_mass, melting_point_celsius, boiling_point_celsius from elements inner join properties using(atomic_number) where atomic_number = $ATOMIC_NUM")"
+    ELEMENT_PROPS="$($PSQL "select atomic_number, symbol, name, type, atomic_mass, melting_point_celsius, boiling_point_celsius from elements inner join properties using(atomic_number) inner join types using(type_id) where atomic_number = $ATOMIC_NUM;")"
     echo $ELEMENT_PROPS | while IFS="|" read ATOMIC_NUM SYMBOL NAME TYPE MASS MELTING BOILING
     do
       echo "The element with atomic number $ATOMIC_NUM is $NAME ($SYMBOL). It's a $TYPE, with a mass of $MASS amu. $NAME has a melting point of $MELTING celsius and a boiling point of $BOILING celsius."
